@@ -20,7 +20,7 @@ def load_traffic_data(file_path):
         print("make sure your Python script and the CSV file are in the same folder")
         return None
 
-def analyze_core_metrics(df):
+def analyse_core_metrics(df):
 
     #Top 5 Talkers
     top_talkers = df['src_IP'].value_counts().nlargest(5)
@@ -30,12 +30,12 @@ def analyze_core_metrics(df):
 
     #Top 5 Listeners
     top_listeners = df['dst_IP'].value_counts().nlargest(5)
-    print("\n2. Top 5 Listeners (Destination IPs)")
+    print("\n Top 5 Listeners (Destination IPs)")
     print(top_listeners)
 
     #Top 5 Applications
     top_applications = df['dst_port'].value_counts().nlargest(5)
-    print("\n3. Top 5 Applications (by Destination Port)")
+    print("\nTop 5 Applications (by Destination Port)")
     print(top_applications)
 
 
@@ -61,12 +61,12 @@ def analyze_core_metrics(df):
     print(f"Sampling Rate: 1 in {sampling_rate}")
     print(f"Estimated Total Traffic: {estimated_total_traffic_mb:.2f} MB")
 
-def analyze_and_visualize_pairs(df):
-    print("\n5. Additional Analysis: Top Communication Pairs")
+def analyse_and_visualise_pairs(df):
+    print("\nAdditional Analysis: Top Communication Pairs")
     communication_pairs = df.groupby(['src_IP', 'dst_IP']).size().nlargest(5)
     print(communication_pairs)
 
-    print("\n6. Generating Network Visualization")
+    print("\nNetwork Visualisation Plot")
     try:
         G = nx.DiGraph()
         for (src, dst), count in communication_pairs.items():
@@ -81,10 +81,10 @@ def analyze_and_visualize_pairs(df):
         plt.title("Top 5 Communication Pairs Network Graph")
         output_filename = "Network_Graph_Top5.png"
         plt.savefig(output_filename, dpi=300)
-        print(f"Saved visualization as '{output_filename}'")
+        print(f"Saved visualisation into '{output_filename}'")
 
     except ImportError:
-        print("Skipping visualization Please install matplotlib and 'networkx.")
+        print("Skipping visualisation Please install matplotlib and 'networkx.")
         print("Run conda install matplotlib networkx")
 
 
@@ -93,8 +93,8 @@ def main():
     traffic_data = load_traffic_data(file_path)
 
     if traffic_data is not None:
-        analyze_core_metrics(traffic_data)
-        analyze_and_visualize_pairs(traffic_data)
+        analyse_core_metrics(traffic_data)
+        analyse_and_visualise_pairs(traffic_data)
 
 
 if __name__ == "__main__":
